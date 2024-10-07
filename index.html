@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VVN Hospital Service</title>
     <link rel="stylesheet" href="styles.css">
+    <title>VVN Hospital Service</title>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>VVN Hospital Service</h1>
-            <button class="return-home" onclick="window.location.href='Payment.html'">Go to Payments</button>
+            <input type="text" id="search-input" placeholder="Search patients...">
         </header>
 
-        <input type="text" id="search-input" placeholder="Search for patients...">
-
         <div id="patient-list"></div>
+        <button class="return-home" onclick="window.location.href='Payment.html'">Go to Payment Page</button>
     </div>
 
     <script src="script.js"></script>

@@ -151,34 +151,58 @@ const patients = [
       dripLevel: 50, payments: 250, precautions: 'Avoid sudden movements' }
 ];
 
-// Function to display patients
 function displayPatients() {
     const patientList = document.getElementById('patient-list');
-    patientList.innerHTML = '';
-
+    patientList.innerHTML = ''; // Clear previous results
     patients.forEach(patient => {
         const patientCard = document.createElement('div');
-        patientCard.className = 'patient-card';
+        patientCard.classList.add('patient-card');
         patientCard.innerHTML = `
             <h3>${patient.name}</h3>
-            <p><strong>Age:</strong> ${patient.age}</p>
-            <p><strong>Status:</strong> ${patient.status}</p>
-            <button onclick="viewPatient('${patient.name}')">View Details</button>
+            <p>Guardian: ${patient.guardian}</p>
+            <p>Nurse: ${patient.nurse}</p>
+            <p>Reason: ${patient.reason}</p>
+            <p>Drip Level: ${patient.dripLevel}%</p>
+            <p>Payments: ₹${patient.payments}</p>
+            <button onclick="viewPatientDetails(${patient.id})">View Details</button>
         `;
         patientList.appendChild(patientCard);
     });
 }
 
 // Function to view patient details
-function viewPatient(patientName) {
-    window.location.href = `Patient.html?patient=${patientName}`;
+function viewPatientDetails(id) {
+    const patient = patients.find(p => p.id === id);
+    if (patient) {
+        const paymentDetails = document.getElementById('payment-details');
+        paymentDetails.innerHTML = `
+            <h2>Details for ${patient.name}</h2>
+            <p>Guardian: ${patient.guardian}</p>
+            <p>Nurse: ${patient.nurse}</p>
+            <p>Reason: ${patient.reason}</p>
+            <p>Medications: ${patient.medications.join(', ')}</p>
+            <p>Dosage: ${patient.dosage.join(', ')}</p>
+            <p>Frequency: ${patient.frequency.join(', ')}</p>
+            <p>Drip Level: ${patient.dripLevel}%</p>
+            <p>Payments: ₹${patient.payments}</p>
+            <p>Precautions: ${patient.precautions}</p>
+            <button onclick="goToPayment(${patient.id})">Proceed to Payment</button>
+        `;
+    }
+}
+
+// Function to go to payment
+function goToPayment(patientId) {
+    // You can implement payment logic or redirect to the Payment page with patientId
+    window.location.href = 'Payment.html'; // Add patientId as a query parameter if needed
 }
 
 // Search functionality
-document.getElementById('search-input').addEventListener('input', function() {
+document.getElementById('search-input').addEventListener('keyup', function() {
     const searchTerm = this.value.toLowerCase();
-    const filteredPatients = patients.filter(patient =>
-        patient.name.toLowerCase().includes(searchTerm)
+    const filteredPatients = patients.filter(patient => 
+        patient.name.toLowerCase().includes(searchTerm) || 
+        patient.guardian.toLowerCase().includes(searchTerm)
     );
     displayFilteredPatients(filteredPatients);
 });
@@ -186,76 +210,22 @@ document.getElementById('search-input').addEventListener('input', function() {
 // Function to display filtered patients
 function displayFilteredPatients(filteredPatients) {
     const patientList = document.getElementById('patient-list');
-    patientList.innerHTML = '';
-
+    patientList.innerHTML = ''; // Clear previous results
     filteredPatients.forEach(patient => {
         const patientCard = document.createElement('div');
-        patientCard.className = 'patient-card';
+        patientCard.classList.add('patient-card');
         patientCard.innerHTML = `
             <h3>${patient.name}</h3>
-            <p><strong>Age:</strong> ${patient.age}</p>
-            <p><strong>Status:</strong> ${patient.status}</p>
-            <button onclick="viewPatient('${patient.name}')">View Details</button>
+            <p>Guardian: ${patient.guardian}</p>
+            <p>Nurse: ${patient.nurse}</p>
+            <p>Reason: ${patient.reason}</p>
+            <p>Drip Level: ${patient.dripLevel}%</p>
+            <p>Payments: ₹${patient.payments}</p>
+            <button onclick="viewPatientDetails(${patient.id})">View Details</button>
         `;
         patientList.appendChild(patientCard);
     });
 }
 
-// Function to generate patient data visualization
-function generatePatientVisualization(patient) {
-    const ctx = document.getElementById('myChart').getContext('2d');
-    
-    // Prepare data for pie chart
-    const medicationData = patient.medicationHistory.map(med => med.cost);
-    const labels = patient.medicationHistory.map(med => med.name);
-    
-    const pieChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Medication Costs',
-                data: medicationData,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(54, 162, 235, 0.6)'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Medication Cost Distribution'
-                }
-            }
-        }
-    });
-}
-
-// Function to handle payment actions
-function handlePayment(patient) {
-    // Logic for payment processing
-    const paymentAmount = document.getElementById('payment-amount').value;
-    if (paymentAmount > patient.pendingAmount) {
-        alert("Payment exceeds pending amount!");
-        return;
-    }
-    
-    // Update payment status
-    patient.pendingAmount -= paymentAmount;
-    if (patient.pendingAmount === 0) {
-        patient.paymentStatus = 'Paid';
-    }
-    // Update UI after payment
-    alert("Payment Successful! Remaining balance: " + patient.pendingAmount);
-}
-
-// Event listener to initialize the patient list on page load
-window.onload = displayPatients;
+// Initial display of patients
+displayPatients();
