@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Search Patients</title>
+    <title>Patient Profile</title>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Search Patients</h1>
+            <h1 id="patient-name-header">Patient Profile</h1>
         </header>
-        <input type="text" id="search-input" placeholder="Search for patients...">
-        <div id="patient-list"></div>
+        <div id="patient-details"></div>
+        <canvas id="medicationChart"></canvas>
+        <canvas id="dripChart"></canvas>
         <button class="return-home" onclick="location.href='index.html'">Return to Homepage</button>
     </div>
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

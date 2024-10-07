@@ -50,68 +50,129 @@ const patients = [
     { id: 49, name: 'Krishna Nair', guardian: 'Kamala Nair', nurse: 'Nurse WW', reason: 'Anxiety', medications: ['Anti-Anxiety Medication'], dripLevel: 85, payments: 200, precautions: 'Counseling' },
     { id: 50, name: 'Gaurav Jain', guardian: 'Aarti Jain', nurse: 'Nurse XX', reason: 'Surgery', medications: ['Painkillers'], dripLevel: 95, payments: 600, precautions: 'Follow up care' }
 ];
+// Function to add a patient
+function addPatient(event) {
+    event.preventDefault();
+    const name = document.getElementById('patient-name').value;
+    const guardian = document.getElementById('guardian-name').value;
+    const nurse = document.getElementById('nurse-name').value;
+    const reason = document.getElementById('reason').value;
+    
+    const newPatient = {
+        id: patients.length + 1,
+        name,
+        guardian,
+        nurse,
+        reason,
+        medications: [],
+        dripLevel: 100,
+        payments: 0,
+        precautions: '',
+        receipt: '',
+        medicationHistory: [],
+    };
+    
+    patients.push(newPatient);
+    alert('Patient added successfully!');
+    document.getElementById('add-patient-form').reset(); // Reset the form
+}
 
-function displayPatientData() {
+// Function to search patients based on the input
+function searchPatients() {
+    const input = document.getElementById('search-input').value.toLowerCase();
     const patientList = document.getElementById('patient-list');
-    patientList.innerHTML = '';
+    patientList.innerHTML = ''; // Clear previous results
 
-    patients.forEach(patient => {
-        const patientCard = document.createElement('div');
-        patientCard.className = 'patient-card';
+    const filteredPatients = patients.filter(patient => patient.name.toLowerCase().includes(input));
 
-        patientCard.innerHTML = `
+    filteredPatients.forEach(patient => {
+        const card = document.createElement('div');
+        card.className = 'patient-card';
+        card.innerHTML = `
             <h3>${patient.name}</h3>
             <p>Guardian: ${patient.guardian}</p>
             <p>Nurse: ${patient.nurse}</p>
             <p>Reason: ${patient.reason}</p>
-            <p>Medications: ${patient.medications.join(', ')}</p>
-            <p>Drip Level: <span class="drip-level">${patient.dripLevel}%</span></p>
-            <p>Payments: ₹${patient.payments}</p>
-            <p>Precautions: ${patient.precautions}</p>
-            <canvas id="chart${patient.id}" width="400" height="200"></canvas>
+            <button onclick="viewPatient(${patient.id})">View Profile</button>
         `;
-
-        patientList.appendChild(patientCard);
-        createDripLevelChart(patient.id, patient.dripLevel);
+        patientList.appendChild(card);
     });
 }
 
-function createDripLevelChart(patientId, dripLevel) {
-    const ctx = document.getElementById(`chart${patientId}`).getContext('2d');
-    const chart = new Chart(ctx, {
-        type: 'line',
+// Function to view patient profile
+function viewPatient(id) {
+    const patient = patients.find(p => p.id === id);
+    if (patient) {
+        document.getElementById('patient-name-header').innerText = `${patient.name}'s Profile`;
+        
+        const patientDetails = `
+            <p><strong>Guardian:</strong> ${patient.guardian}</p>
+            <p><strong>Nurse:</strong> ${patient.nurse}</p>
+            <p><strong>Reason:</strong> ${patient.reason}</p>
+            <p><strong>Drip Level:</strong> ${patient.dripLevel}%</p>
+            <p><strong>Payments:</strong> ₹${patient.payments}</p>
+            <p><strong>Precautions:</strong> ${patient.precautions}</p>
+        `;
+        document.getElementById('patient-details').innerHTML = patientDetails;
+        
+        // Initialize graphs
+        drawGraphs(patient);
+    }
+}
+
+// Function to draw graphs for medications and drip levels
+function drawGraphs(patient) {
+    const medicationLevels = patient.medications.map(med => med.level);
+    const labels = patient.medications.map(med => med.name);
+    
+    // Medication Chart
+    const medicationCtx = document.getElementById('medicationChart').getContext('2d');
+    new Chart(medicationCtx, {
+        type: 'bar',
         data: {
-            labels: ['0h', '1h', '2h', '3h', '4h', '5h', '6h'],
+            labels: labels,
             datasets: [{
-                label: 'Drip Level (%)',
+                label: 'Medication Levels',
+                data: medicationLevels,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
-                data: [dripLevel, dripLevel - 10, dripLevel - 20, dripLevel - 10, dripLevel, dripLevel - 5, dripLevel],
-                fill: true,
+                borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Drip Chart
+    const dripCtx = document.getElementById('dripChart').getContext('2d');
+    new Chart(dripCtx, {
+        type: 'line',
+        data: {
+            labels: ['Start', 'After 1 Hour', 'After 2 Hours', 'End'], // Sample labels
+            datasets: [{
+                label: 'Drip Level',
+                data: [100, 80, 50, 0], // Sample data, adjust as necessary
+                fill: false,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                tension: 0.1
+            }]
+        },
+        options: {
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 100,
-                    title: {
-                        display: true,
-                        text: 'Drip Level (%)'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Time'
-                    }
+                    max: 100 // Assuming max drip level is 100%
                 }
             }
         }
     });
 }
 
-// Initial display of patient data
-displayPatientData();
+// Call searchPatients on input change
+document.getElementById('search-input')?.addEventListener('input', searchPatients);
+document.getElementById('add-patient-form')?.addEventListener('submit', addPatient);
