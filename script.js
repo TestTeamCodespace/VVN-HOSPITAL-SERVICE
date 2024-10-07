@@ -1,130 +1,123 @@
-let patients = [
-    {
-        id: 1,
-        name: 'Rahul Sharma',
-        guardian: 'Amit Sharma',
-        nurse: 'Nurse A',
-        reason: 'Surgery',
-        medications: [],
-        dripLevel: 100,
-        payments: 500,
-        precautions: 'Rest and hydration',
-        receipt: 'REC-001',
-        medicationHistory: []
-    },
-    {
-        id: 2,
-        name: 'Priya Gupta',
-        guardian: 'Sita Gupta',
-        nurse: 'Nurse B',
-        reason: 'Fever',
-        medications: [],
-        dripLevel: 95,
-        payments: 300,
-        precautions: 'Stay hydrated',
-        receipt: 'REC-002',
-        medicationHistory: []
-    },
-    // Additional patient data...
-    {
-        id: 3,
-        name: 'Suresh Verma',
-        guardian: 'Rajesh Verma',
-        nurse: 'Nurse C',
-        reason: 'Checkup',
-        medications: [],
-        dripLevel: 100,
-        payments: 1000,
-        precautions: 'Regular exercise',
-        receipt: 'REC-003',
-        medicationHistory: []
-    }
-    // More patients can be added here...
+// Patient Data
+const patients = [
+    { id: 1, name: 'Rahul Sharma', guardian: 'Amit Sharma', nurse: 'Nurse A', reason: 'Surgery', medications: [{ name: 'Paracetamol', cost: 50 }], dripLevel: 100, payments: 500 },
+    { id: 2, name: 'Priya Gupta', guardian: 'Sita Gupta', nurse: 'Nurse B', reason: 'Fever', medications: [{ name: 'Paracetamol', cost: 50 }], dripLevel: 95, payments: 300 },
+    { id: 3, name: 'Suresh Verma', guardian: 'Rajesh Verma', nurse: 'Nurse C', reason: 'Checkup', medications: [], dripLevel: 100, payments: 1000 },
+    { id: 4, name: 'Meera Iyer', guardian: 'Anil Iyer', nurse: 'Nurse D', reason: 'Surgery', medications: [{ name: 'Tramadol', cost: 80 }], dripLevel: 85, payments: 600 },
+    { id: 5, name: 'Ravi Kumar', guardian: 'Pooja Kumar', nurse: 'Nurse E', reason: 'Allergy', medications: [{ name: 'Cetirizine', cost: 20 }], dripLevel: 100, payments: 450 },
+    { id: 6, name: 'Anjali Rao', guardian: 'Krishna Rao', nurse: 'Nurse F', reason: 'Diabetes check', medications: [{ name: 'Metformin', cost: 100 }], dripLevel: 100, payments: 700 },
+    { id: 7, name: 'Kiran Malhotra', guardian: 'Deepak Malhotra', nurse: 'Nurse G', reason: 'Routine Checkup', medications: [], dripLevel: 95, payments: 200 },
+    { id: 8, name: 'Vinay Verma', guardian: 'Sonu Verma', nurse: 'Nurse H', reason: 'Heart Issues', medications: [{ name: 'Aspirin', cost: 60 }], dripLevel: 90, payments: 800 },
+    { id: 9, name: 'Deepa Patil', guardian: 'Shiv Patil', nurse: 'Nurse I', reason: 'Pregnancy Check', medications: [], dripLevel: 100, payments: 300 },
+    { id: 10, name: 'Rajendra Singh', guardian: 'Ramesh Singh', nurse: 'Nurse J', reason: 'Back Pain', medications: [{ name: 'Ibuprofen', cost: 70 }], dripLevel: 88, payments: 500 },
 ];
 
-document.getElementById('searchForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-    const filteredPatients = patients.filter(patient => 
-        patient.name.toLowerCase().includes(searchQuery)
-    );
-    displayPatients(filteredPatients);
+// Variables
+const loginForm = document.getElementById('loginForm');
+const patientSearchInput = document.getElementById('patientSearch');
+const patientCardContainer = document.getElementById('patientCardContainer');
+const addPatientButton = document.getElementById('addPatientButton');
+const dashboardButton = document.getElementById('dashboardButton');
+let isLoggedIn = false;
+
+// Event Listeners
+loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const username = event.target.username.value;
+    const password = event.target.password.value;
+    if (username === 'user' && password === 'password') {
+        isLoggedIn = true;
+        alert('Login successful');
+        showDashboard();
+    } else {
+        alert('Invalid credentials');
+    }
 });
 
-function displayPatients(filteredPatients) {
-    const patientCards = document.getElementById('patientCards');
-    patientCards.innerHTML = '';
-    filteredPatients.forEach(patient => {
-        const card = document.createElement('div');
-        card.classList.add('patient-card');
-        card.innerHTML = `
+patientSearchInput.addEventListener('input', () => {
+    const searchTerm = patientSearchInput.value.toLowerCase();
+    searchPatients(searchTerm);
+});
+
+addPatientButton.addEventListener('click', () => {
+    if (isLoggedIn) {
+        window.location.href = 'addPatient.html'; // Redirect to Add Patient Page
+    } else {
+        alert('Please log in to add patients');
+    }
+});
+
+// Functions
+function showDashboard() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    displayPatients();
+}
+
+function searchPatients(term) {
+    const filteredPatients = patients.filter(patient => patient.name.toLowerCase().includes(term));
+    displayPatients(filteredPatients);
+}
+
+function displayPatients(patientsToDisplay = patients) {
+    patientCardContainer.innerHTML = '';
+    patientsToDisplay.forEach(patient => {
+        const patientCard = document.createElement('div');
+        patientCard.classList.add('patient-card');
+        patientCard.innerHTML = `
             <h3>${patient.name}</h3>
             <p>Guardian: ${patient.guardian}</p>
             <p>Nurse: ${patient.nurse}</p>
             <p>Reason: ${patient.reason}</p>
+            <p>Payments: $${patient.payments}</p>
             <p>Drip Level: ${patient.dripLevel}%</p>
-            <button onclick="viewPatientDetails(${patient.id})">View Details</button>
+            <canvas id="dripChart${patient.id}" class="drip-chart"></canvas>
         `;
-        patientCards.appendChild(card);
+        patientCardContainer.appendChild(patientCard);
+        createDripChart(patient.id, patient.dripLevel);
     });
 }
 
-function viewPatientDetails(id) {
-    const patient = patients.find(p => p.id === id);
-    if (patient) {
-        alert(`Name: ${patient.name}\nGuardian: ${patient.guardian}\nNurse: ${patient.nurse}\nReason: ${patient.reason}\nDrip Level: ${patient.dripLevel}%\nPayments: ${patient.payments}\nPrecautions: ${patient.precautions}`);
-    }
+function createDripChart(patientId, dripLevel) {
+    const ctx = document.getElementById(`dripChart${patientId}`).getContext('2d');
+    new Chart(ctx, {
+        type: 'gauge',
+        data: {
+            datasets: [{
+                data: [dripLevel],
+                backgroundColor: ['#4caf50', '#ff9800', '#f44336'],
+                borderWidth: 0,
+                needleValue: 0,
+            }],
+        },
+        options: {
+            responsive: true,
+            elements: {
+                arc: {
+                    borderWidth: 0,
+                },
+            },
+            circumference: Math.PI,
+            rotation: Math.PI,
+            needle: {
+                length: '50%',
+                width: 4,
+                color: '#000',
+            },
+            plugins: {
+                tooltip: {
+                    enabled: true,
+                },
+            },
+        },
+    });
 }
 
-// Function to handle patient addition
-document.getElementById('addPatientForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const newPatient = {
-        id: patients.length + 1,
-        name: document.getElementById('name').value,
-        guardian: document.getElementById('guardian').value,
-        nurse: document.getElementById('nurse').value,
-        reason: document.getElementById('reason').value,
-        medications: [],
-        dripLevel: 100,
-        payments: 0,
-        precautions: '',
-        receipt: `REC-00${patients.length + 1}`,
-        medicationHistory: []
-    };
-    
-    patients.push(newPatient); // Add new patient to the array
-    alert(`${newPatient.name} added successfully!`);
-    window.location.href = 'index.html'; // Redirect back to the main page
-});
-
-// Handle login
-const correctUsername = 'user';
-const correctPassword = 'password';
-
-document.getElementById('loginForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (username === correctUsername && password === correctPassword) {
-        window.location.href = 'index.html'; // Redirect to main page
+// Function to redirect to the Add Patient Page (implement logic as needed)
+function redirectToAddPatient() {
+    if (isLoggedIn) {
+        window.location.href = 'addPatient.html';
     } else {
-        document.getElementById('loginError').innerText = 'Invalid credentials';
+        alert('You must be logged in to add a patient');
     }
-});
-
-// Monitor drip levels
-function monitorDripLevels() {
-    patients.forEach(patient => {
-        if (patient.dripLevel <= 15) {
-            patient.dripLevel = 100; // Reset drip level
-            alert(`Drip level for ${patient.name} reset to 100%`);
-            // Update the display if necessary
-        }
-    });
 }
-
-// Call this function periodically (e.g., every hour)
-setInterval(monitorDripLevels, 3600000);

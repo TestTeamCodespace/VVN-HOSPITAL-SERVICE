@@ -20,6 +20,11 @@ nav a {
     color: #ffffff;
     margin: 0 15px;
     text-decoration: none;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #ffcc00;
 }
 
 section {
@@ -30,6 +35,8 @@ input[type="text"], input[type="password"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 button {
@@ -38,6 +45,7 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 button:hover {
@@ -58,4 +66,8 @@ button:hover {
 
 .patient-card p {
     margin: 5px 0;
+}
+
+canvas {
+    margin: 20px 0;
 }

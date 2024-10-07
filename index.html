@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VVN Hospital Service</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
 </head>
 <body>
     <header>
         <h1>VVN Hospital Service</h1>
         <nav>
             <a href="index.html">Home</a>
-            <a href="add-patient.html">Add Patient</a>
             <a href="login.html">Login</a>
+            <a href="add-patient.html">Add Patient</a>
         </nav>
     </header>
 
     <main>
+        <section>
+            <h2>Patient Overview</h2>
+            <canvas id="patientChart" width="400" height="200"></canvas>
+        </section>
+
         <section>
             <h2>Search Patients</h2>
             <form id="searchForm">
