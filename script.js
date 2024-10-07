@@ -1,197 +1,250 @@
 const patients = [
-    { id: 1, name: 'Rahul Sharma', guardian: 'Amit Sharma', nurse: 'Nurse A', reason: 'Surgery', medications: ['Paracetamol', 'Amoxicillin'], dripLevel: 100, payments: 500, precautions: 'Rest and hydration' },
-    { id: 2, name: 'Priya Gupta', guardian: 'Sita Gupta', nurse: 'Nurse B', reason: 'Fever', medications: ['Paracetamol', 'Cetirizine'], dripLevel: 95, payments: 300, precautions: 'Stay hydrated' },
-    { id: 3, name: 'Aarav Mehta', guardian: 'Raj Mehta', nurse: 'Nurse C', reason: 'Checkup', medications: ['Vitamin C'], dripLevel: 80, payments: 150, precautions: 'Balanced diet' },
-    { id: 4, name: 'Nisha Verma', guardian: 'Kiran Verma', nurse: 'Nurse D', reason: 'Headache', medications: ['Ibuprofen'], dripLevel: 90, payments: 200, precautions: 'Rest well' },
-    { id: 5, name: 'Vikram Singh', guardian: 'Anita Singh', nurse: 'Nurse E', reason: 'Injury', medications: ['Pain Reliever'], dripLevel: 70, payments: 300, precautions: 'Avoid movement' },
-    { id: 6, name: 'Sita Sharma', guardian: 'Ravi Sharma', nurse: 'Nurse F', reason: 'Fever', medications: ['Paracetamol'], dripLevel: 85, payments: 100, precautions: 'Drink fluids' },
-    { id: 7, name: 'Arjun Joshi', guardian: 'Neeta Joshi', nurse: 'Nurse G', reason: 'Allergy', medications: ['Antihistamine'], dripLevel: 60, payments: 250, precautions: 'Avoid allergens' },
-    { id: 8, name: 'Kajal Kumar', guardian: 'Amit Kumar', nurse: 'Nurse H', reason: 'Cold', medications: ['Cold Medicine'], dripLevel: 90, payments: 120, precautions: 'Stay warm' },
-    { id: 9, name: 'Ravi Patil', guardian: 'Lata Patil', nurse: 'Nurse I', reason: 'Fatigue', medications: ['Multivitamin'], dripLevel: 75, payments: 200, precautions: 'Rest adequately' },
-    { id: 10, name: 'Ananya Roy', guardian: 'Deepak Roy', nurse: 'Nurse J', reason: 'Checkup', medications: ['Blood Pressure Medication'], dripLevel: 100, payments: 500, precautions: 'Regular monitoring' },
-    { id: 11, name: 'Aarohi Jain', guardian: 'Pankaj Jain', nurse: 'Nurse K', reason: 'Flu', medications: ['Flu Shot'], dripLevel: 95, payments: 400, precautions: 'Stay isolated' },
-    { id: 12, name: 'Rohit Verma', guardian: 'Priyanka Verma', nurse: 'Nurse L', reason: 'Surgery', medications: ['Painkillers'], dripLevel: 85, payments: 600, precautions: 'Avoid physical activity' },
-    { id: 13, name: 'Meera Nair', guardian: 'Suresh Nair', nurse: 'Nurse M', reason: 'Checkup', medications: ['Calcium'], dripLevel: 70, payments: 200, precautions: 'Take supplements' },
-    { id: 14, name: 'Deepak Kumar', guardian: 'Anjali Kumar', nurse: 'Nurse N', reason: 'Back Pain', medications: ['Muscle Relaxants'], dripLevel: 80, payments: 300, precautions: 'Use heat pads' },
-    { id: 15, name: 'Pooja Das', guardian: 'Sanjay Das', nurse: 'Nurse O', reason: 'Anxiety', medications: ['Anti-Anxiety Medication'], dripLevel: 90, payments: 250, precautions: 'Stay calm' },
-    { id: 16, name: 'Arnav Sharma', guardian: 'Meena Sharma', nurse: 'Nurse P', reason: 'Infection', medications: ['Antibiotics'], dripLevel: 60, payments: 350, precautions: 'Follow doctors advice' },
-    { id: 17, name: 'Sonal Gupta', guardian: 'Ravi Gupta', nurse: 'Nurse Q', reason: 'Checkup', medications: ['Cholesterol Medication'], dripLevel: 100, payments: 400, precautions: 'Diet control' },
-    { id: 18, name: 'Rajesh Yadav', guardian: 'Sita Yadav', nurse: 'Nurse R', reason: 'Diabetes', medications: ['Insulin'], dripLevel: 85, payments: 300, precautions: 'Regular testing' },
-    { id: 19, name: 'Tanvi Mehta', guardian: 'Nikhil Mehta', nurse: 'Nurse S', reason: 'Fever', medications: ['Fever Reducer'], dripLevel: 90, payments: 150, precautions: 'Stay hydrated' },
-    { id: 20, name: 'Rishabh Singh', guardian: 'Anita Singh', nurse: 'Nurse T', reason: 'Checkup', medications: ['Blood Thinner'], dripLevel: 100, payments: 500, precautions: 'Regular checkups' },
-    { id: 21, name: 'Neha Joshi', guardian: 'Ajay Joshi', nurse: 'Nurse U', reason: 'Cold', medications: ['Decongestant'], dripLevel: 75, payments: 250, precautions: 'Rest well' },
-    { id: 22, name: 'Vishal Sharma', guardian: 'Suman Sharma', nurse: 'Nurse V', reason: 'Allergy', medications: ['Corticosteroid'], dripLevel: 80, payments: 300, precautions: 'Avoid allergens' },
-    { id: 23, name: 'Akanksha Nair', guardian: 'Harish Nair', nurse: 'Nurse W', reason: 'Surgery', medications: ['Anesthesia'], dripLevel: 90, payments: 400, precautions: 'Post-op care' },
-    { id: 24, name: 'Karan Kapoor', guardian: 'Poonam Kapoor', nurse: 'Nurse X', reason: 'Checkup', medications: ['Electrolytes'], dripLevel: 70, payments: 200, precautions: 'Hydrate well' },
-    { id: 25, name: 'Sneha Agarwal', guardian: 'Rajesh Agarwal', nurse: 'Nurse Y', reason: 'Fever', medications: ['Antipyretic'], dripLevel: 95, payments: 150, precautions: 'Stay warm' },
-    { id: 26, name: 'Riya Singh', guardian: 'Kunal Singh', nurse: 'Nurse Z', reason: 'Diabetes', medications: ['Metformin'], dripLevel: 80, payments: 250, precautions: 'Monitor levels' },
-    { id: 27, name: 'Shivam Patel', guardian: 'Nisha Patel', nurse: 'Nurse AA', reason: 'Checkup', medications: ['Antibiotics'], dripLevel: 100, payments: 400, precautions: 'Follow medication schedule' },
-    { id: 28, name: 'Sakshi Kumar', guardian: 'Amit Kumar', nurse: 'Nurse BB', reason: 'Headache', medications: ['Aspirin'], dripLevel: 90, payments: 300, precautions: 'Limit screen time' },
-    { id: 29, name: 'Pranav Rathi', guardian: 'Nirmala Rathi', nurse: 'Nurse CC', reason: 'Injury', medications: ['Pain Relief'], dripLevel: 75, payments: 200, precautions: 'Physical therapy' },
-    { id: 30, name: 'Aditi Jain', guardian: 'Rajesh Jain', nurse: 'Nurse DD', reason: 'Cold', medications: ['Cough Syrup'], dripLevel: 60, payments: 150, precautions: 'Stay warm' },
-    { id: 31, name: 'Varun Singh', guardian: 'Pooja Singh', nurse: 'Nurse EE', reason: 'Surgery', medications: ['Painkillers'], dripLevel: 100, payments: 500, precautions: 'Rest and recovery' },
-    { id: 32, name: 'Priti Verma', guardian: 'Amit Verma', nurse: 'Nurse FF', reason: 'Anxiety', medications: ['Anti-Anxiety'], dripLevel: 85, payments: 300, precautions: 'Relaxation techniques' },
-    { id: 33, name: 'Rahul Yadav', guardian: 'Sita Yadav', nurse: 'Nurse GG', reason: 'Checkup', medications: ['Cholesterol'], dripLevel: 90, payments: 150, precautions: 'Healthy diet' },
-    { id: 34, name: 'Riya Das', guardian: 'Rajesh Das', nurse: 'Nurse HH', reason: 'Fever', medications: ['Antipyretic'], dripLevel: 100, payments: 400, precautions: 'Stay hydrated' },
-    { id: 35, name: 'Kartik Sharma', guardian: 'Anita Sharma', nurse: 'Nurse II', reason: 'Injury', medications: ['Pain Management'], dripLevel: 75, payments: 250, precautions: 'Limit movement' },
-    { id: 36, name: 'Siddharth Gupta', guardian: 'Nisha Gupta', nurse: 'Nurse JJ', reason: 'Headache', medications: ['Pain Reliever'], dripLevel: 80, payments: 300, precautions: 'Adequate rest' },
-    { id: 37, name: 'Jaya Kumar', guardian: 'Ravi Kumar', nurse: 'Nurse KK', reason: 'Diabetes', medications: ['Insulin'], dripLevel: 90, payments: 500, precautions: 'Regular monitoring' },
-    { id: 38, name: 'Dev Singh', guardian: 'Anita Singh', nurse: 'Nurse LL', reason: 'Checkup', medications: ['Blood Pressure'], dripLevel: 100, payments: 400, precautions: 'Check regularly' },
-    { id: 39, name: 'Neelam Patil', guardian: 'Rajesh Patil', nurse: 'Nurse MM', reason: 'Cold', medications: ['Cough Syrup'], dripLevel: 70, payments: 150, precautions: 'Stay warm' },
-    { id: 40, name: 'Rohan Nair', guardian: 'Suman Nair', nurse: 'Nurse NN', reason: 'Anxiety', medications: ['Antidepressants'], dripLevel: 85, payments: 300, precautions: 'Counseling' },
-    { id: 41, name: 'Anaya Roy', guardian: 'Pankaj Roy', nurse: 'Nurse OO', reason: 'Fever', medications: ['Flu Medication'], dripLevel: 90, payments: 200, precautions: 'Rest' },
-    { id: 42, name: 'Ishaan Agarwal', guardian: 'Nirmal Agarwal', nurse: 'Nurse PP', reason: 'Infection', medications: ['Antibiotics'], dripLevel: 100, payments: 500, precautions: 'Follow doctor\'s instructions' },
-    { id: 43, name: 'Megha Joshi', guardian: 'Rajeev Joshi', nurse: 'Nurse QQ', reason: 'Surgery', medications: ['Pain Relief'], dripLevel: 95, payments: 400, precautions: 'Limit physical activity' },
-    { id: 44, name: 'Sanjay Rathi', guardian: 'Kamini Rathi', nurse: 'Nurse RR', reason: 'Checkup', medications: ['Electrolytes'], dripLevel: 75, payments: 250, precautions: 'Stay hydrated' },
-    { id: 45, name: 'Aditi Verma', guardian: 'Rakesh Verma', nurse: 'Nurse SS', reason: 'Cold', medications: ['Decongestant'], dripLevel: 80, payments: 300, precautions: 'Rest well' },
-    { id: 46, name: 'Kabir Singh', guardian: 'Neeta Singh', nurse: 'Nurse TT', reason: 'Injury', medications: ['Pain Relief'], dripLevel: 60, payments: 150, precautions: 'Avoid strain' },
-    { id: 47, name: 'Tanisha Patil', guardian: 'Anil Patil', nurse: 'Nurse UU', reason: 'Fever', medications: ['Fever Reducer'], dripLevel: 90, payments: 100, precautions: 'Stay hydrated' },
-    { id: 48, name: 'Arnav Yadav', guardian: 'Geeta Yadav', nurse: 'Nurse VV', reason: 'Checkup', medications: ['Blood Pressure'], dripLevel: 100, payments: 500, precautions: 'Regular checkups' },
-    { id: 49, name: 'Krishna Nair', guardian: 'Kamala Nair', nurse: 'Nurse WW', reason: 'Anxiety', medications: ['Anti-Anxiety Medication'], dripLevel: 85, payments: 200, precautions: 'Counseling' },
-    { id: 50, name: 'Gaurav Jain', guardian: 'Aarti Jain', nurse: 'Nurse XX', reason: 'Surgery', medications: ['Painkillers'], dripLevel: 95, payments: 600, precautions: 'Follow up care' }
+    { id: 1, name: 'Rahul Sharma', guardian: 'Amit Sharma', nurse: 'Nurse A', reason: 'Surgery', 
+      medications: ['Paracetamol', 'Amoxicillin'], dosage: ['500mg', '250mg'], frequency: ['Every 6 hours', 'Twice a day'], 
+      dripLevel: 100, payments: 500, precautions: 'Rest and hydration' },
+    { id: 2, name: 'Anjali Verma', guardian: 'Raj Verma', nurse: 'Nurse B', reason: 'Flu', 
+      medications: ['Oseltamivir'], dosage: ['75mg'], frequency: ['Twice a day'], 
+      dripLevel: 80, payments: 200, precautions: 'Stay hydrated' },
+    { id: 3, name: 'Mohit Gupta', guardian: 'Sunita Gupta', nurse: 'Nurse C', reason: 'Appendicitis', 
+      medications: ['Ibuprofen', 'Antibiotic'], dosage: ['600mg', '500mg'], frequency: ['Every 8 hours', 'Once daily'], 
+      dripLevel: 60, payments: 300, precautions: 'Avoid heavy meals' },
+    { id: 4, name: 'Sneha Joshi', guardian: 'Anil Joshi', nurse: 'Nurse D', reason: 'Headache', 
+      medications: ['Aspirin'], dosage: ['300mg'], frequency: ['Once every 6 hours'], 
+      dripLevel: 90, payments: 150, precautions: 'Rest in a dark room' },
+    { id: 5, name: 'Karan Mehta', guardian: 'Deepa Mehta', nurse: 'Nurse E', reason: 'Fracture', 
+      medications: ['Pain relief', 'Calcium'], dosage: ['500mg', '250mg'], frequency: ['Every 8 hours', 'Once daily'], 
+      dripLevel: 50, payments: 400, precautions: 'Avoid movement' },
+    { id: 6, name: 'Priya Singh', guardian: 'Vikram Singh', nurse: 'Nurse F', reason: 'Diabetes', 
+      medications: ['Metformin'], dosage: ['1000mg'], frequency: ['Twice a day'], 
+      dripLevel: 70, payments: 350, precautions: 'Monitor blood sugar' },
+    { id: 7, name: 'Rajesh Sharma', guardian: 'Manju Sharma', nurse: 'Nurse G', reason: 'High BP', 
+      medications: ['Amlodipine'], dosage: ['5mg'], frequency: ['Once daily'], 
+      dripLevel: 95, payments: 250, precautions: 'Limit salt intake' },
+    { id: 8, name: 'Neha Kapoor', guardian: 'Pankaj Kapoor', nurse: 'Nurse H', reason: 'Allergy', 
+      medications: ['Cetirizine'], dosage: ['10mg'], frequency: ['Once daily'], 
+      dripLevel: 85, payments: 180, precautions: 'Avoid allergens' },
+    { id: 9, name: 'Suresh Patel', guardian: 'Geeta Patel', nurse: 'Nurse I', reason: 'Pneumonia', 
+      medications: ['Antibiotic'], dosage: ['500mg'], frequency: ['Every 6 hours'], 
+      dripLevel: 75, payments: 450, precautions: 'Avoid cold' },
+    { id: 10, name: 'Aisha Khan', guardian: 'Mohammed Khan', nurse: 'Nurse J', reason: 'Migraine', 
+      medications: ['Sumatriptan'], dosage: ['50mg'], frequency: ['As needed'], 
+      dripLevel: 65, payments: 200, precautions: 'Rest and dark room' },
+    { id: 11, name: 'Shivani Rao', guardian: 'Ajay Rao', nurse: 'Nurse K', reason: 'Anemia', 
+      medications: ['Iron supplements'], dosage: ['100mg'], frequency: ['Once daily'], 
+      dripLevel: 55, payments: 220, precautions: 'Eat iron-rich foods' },
+    { id: 12, name: 'Vikrant Iyer', guardian: 'Riya Iyer', nurse: 'Nurse L', reason: 'Thyroid', 
+      medications: ['Levothyroxine'], dosage: ['50mcg'], frequency: ['Once daily'], 
+      dripLevel: 80, payments: 300, precautions: 'Regular tests' },
+    { id: 13, name: 'Deepak Nair', guardian: 'Rani Nair', nurse: 'Nurse M', reason: 'Hernia', 
+      medications: ['Pain relief'], dosage: ['400mg'], frequency: ['As needed'], 
+      dripLevel: 40, payments: 370, precautions: 'Avoid heavy lifting' },
+    { id: 14, name: 'Sonia Patel', guardian: 'Raj Patel', nurse: 'Nurse N', reason: 'Cholecystitis', 
+      medications: ['Pain relief', 'Antibiotic'], dosage: ['500mg', '500mg'], frequency: ['Every 8 hours', 'Once daily'], 
+      dripLevel: 30, payments: 290, precautions: 'Diet control' },
+    { id: 15, name: 'Kajal Verma', guardian: 'Pramod Verma', nurse: 'Nurse O', reason: 'Kidney Stone', 
+      medications: ['Pain relief', 'Hydration'], dosage: ['200mg', 'Drink plenty'], frequency: ['Every 6 hours', 'As needed'], 
+      dripLevel: 20, payments: 350, precautions: 'Stay hydrated' },
+    { id: 16, name: 'Ankit Kumar', guardian: 'Neelam Kumar', nurse: 'Nurse P', reason: 'Back Pain', 
+      medications: ['Ibuprofen'], dosage: ['400mg'], frequency: ['Every 8 hours'], 
+      dripLevel: 10, payments: 150, precautions: 'Physical therapy' },
+    { id: 17, name: 'Manisha Desai', guardian: 'Chirag Desai', nurse: 'Nurse Q', reason: 'Skin Rash', 
+      medications: ['Antihistamine'], dosage: ['10mg'], frequency: ['Once daily'], 
+      dripLevel: 60, payments: 210, precautions: 'Avoid scratching' },
+    { id: 18, name: 'Rohit Sethi', guardian: 'Sunita Sethi', nurse: 'Nurse R', reason: 'Stroke', 
+      medications: ['Blood thinners'], dosage: ['5mg'], frequency: ['Once daily'], 
+      dripLevel: 90, payments: 500, precautions: 'Immediate care needed' },
+    { id: 19, name: 'Nikita Soni', guardian: 'Raj Soni', nurse: 'Nurse S', reason: 'Heart Condition', 
+      medications: ['Beta-blockers'], dosage: ['50mg'], frequency: ['Once daily'], 
+      dripLevel: 80, payments: 250, precautions: 'Regular check-ups' },
+    { id: 20, name: 'Yash Garg', guardian: 'Anju Garg', nurse: 'Nurse T', reason: 'Asthma', 
+      medications: ['Inhaler'], dosage: ['As needed'], frequency: ['Every 4 hours'], 
+      dripLevel: 75, payments: 300, precautions: 'Avoid triggers' },
+    { id: 21, name: 'Simran Bansal', guardian: 'Manoj Bansal', nurse: 'Nurse U', reason: 'Osteoporosis', 
+      medications: ['Calcium'], dosage: ['600mg'], frequency: ['Once daily'], 
+      dripLevel: 70, payments: 250, precautions: 'Weight-bearing exercises' },
+    { id: 22, name: 'Arjun Patil', guardian: 'Geeta Patil', nurse: 'Nurse V', reason: 'Gastroenteritis', 
+      medications: ['Oral rehydration salts'], dosage: ['As needed'], frequency: ['Every 6 hours'], 
+      dripLevel: 90, payments: 200, precautions: 'Stay hydrated' },
+    { id: 23, name: 'Siddharth Nair', guardian: 'Prerna Nair', nurse: 'Nurse W', reason: 'Cough', 
+      medications: ['Cough syrup'], dosage: ['10ml'], frequency: ['Every 4 hours'], 
+      dripLevel: 60, payments: 190, precautions: 'Avoid cold drinks' },
+    { id: 24, name: 'Deepali Singh', guardian: 'Pradeep Singh', nurse: 'Nurse X', reason: 'Conjunctivitis', 
+      medications: ['Eye drops'], dosage: ['As prescribed'], frequency: ['Every 6 hours'], 
+      dripLevel: 50, payments: 230, precautions: 'Avoid touching eyes' },
+    { id: 25, name: 'Vaibhav Choudhary', guardian: 'Anita Choudhary', nurse: 'Nurse Y', reason: 'Heartburn', 
+      medications: ['Antacid'], dosage: ['10ml'], frequency: ['As needed'], 
+      dripLevel: 40, payments: 210, precautions: 'Avoid spicy food' },
+    { id: 26, name: 'Kriti Mehta', guardian: 'Anuj Mehta', nurse: 'Nurse Z', reason: 'Sinusitis', 
+      medications: ['Nasal spray'], dosage: ['As needed'], frequency: ['Every 4 hours'], 
+      dripLevel: 30, payments: 180, precautions: 'Stay hydrated' },
+    { id: 27, name: 'Amit Bhardwaj', guardian: 'Suman Bhardwaj', nurse: 'Nurse AA', reason: 'Dental Issue', 
+      medications: ['Pain relief'], dosage: ['500mg'], frequency: ['As needed'], 
+      dripLevel: 20, payments: 200, precautions: 'Avoid hard food' },
+    { id: 28, name: 'Sakshi Reddy', guardian: 'Sandeep Reddy', nurse: 'Nurse AB', reason: 'Influenza', 
+      medications: ['Antiviral'], dosage: ['75mg'], frequency: ['Twice a day'], 
+      dripLevel: 60, payments: 190, precautions: 'Rest and hydration' },
+    { id: 29, name: 'Nandini Gupta', guardian: 'Ankit Gupta', nurse: 'Nurse AC', reason: 'Chickenpox', 
+      medications: ['Antihistamine'], dosage: ['10mg'], frequency: ['Once daily'], 
+      dripLevel: 80, payments: 250, precautions: 'Avoid scratching' },
+    { id: 30, name: 'Aarav Sharma', guardian: 'Sanjay Sharma', nurse: 'Nurse AD', reason: 'Gout', 
+      medications: ['Colchicine'], dosage: ['500mg'], frequency: ['Every 6 hours'], 
+      dripLevel: 90, payments: 300, precautions: 'Avoid purines' },
+    { id: 31, name: 'Charu Jain', guardian: 'Rohan Jain', nurse: 'Nurse AE', reason: 'Bronchitis', 
+      medications: ['Corticosteroids'], dosage: ['40mg'], frequency: ['Once daily'], 
+      dripLevel: 70, payments: 220, precautions: 'Avoid smoke' },
+    { id: 32, name: 'Pratik Singh', guardian: 'Suman Singh', nurse: 'Nurse AF', reason: 'Depression', 
+      medications: ['Antidepressants'], dosage: ['50mg'], frequency: ['Once daily'], 
+      dripLevel: 60, payments: 250, precautions: 'Regular counseling' },
+    { id: 33, name: 'Kavya Sharma', guardian: 'Vikram Sharma', nurse: 'Nurse AG', reason: 'Eczema', 
+      medications: ['Topical cream'], dosage: ['As prescribed'], frequency: ['Twice daily'], 
+      dripLevel: 80, payments: 300, precautions: 'Moisturize regularly' },
+    { id: 34, name: 'Rahul Iyer', guardian: 'Seema Iyer', nurse: 'Nurse AH', reason: 'Psoriasis', 
+      medications: ['Topical treatment'], dosage: ['As prescribed'], frequency: ['Daily'], 
+      dripLevel: 50, payments: 220, precautions: 'Avoid triggers' },
+    { id: 35, name: 'Alok Joshi', guardian: 'Vinita Joshi', nurse: 'Nurse AI', reason: 'Allergic Reaction', 
+      medications: ['Antihistamine'], dosage: ['10mg'], frequency: ['As needed'], 
+      dripLevel: 70, payments: 210, precautions: 'Identify allergen' },
+    { id: 36, name: 'Tanvi Patel', guardian: 'Dharmesh Patel', nurse: 'Nurse AJ', reason: 'Severe Fatigue', 
+      medications: ['Vitamin supplements'], dosage: ['As prescribed'], frequency: ['Once daily'], 
+      dripLevel: 60, payments: 190, precautions: 'Rest and nutrition' },
+    { id: 37, name: 'Ravi Agarwal', guardian: 'Meena Agarwal', nurse: 'Nurse AK', reason: 'Fever', 
+      medications: ['Paracetamol'], dosage: ['500mg'], frequency: ['Every 6 hours'], 
+      dripLevel: 90, payments: 250, precautions: 'Stay hydrated' },
+    { id: 38, name: 'Siddhi Naik', guardian: 'Kunal Naik', nurse: 'Nurse AL', reason: 'Hypothyroidism', 
+      medications: ['Levothyroxine'], dosage: ['100mcg'], frequency: ['Once daily'], 
+      dripLevel: 80, payments: 300, precautions: 'Regular tests' },
+    { id: 39, name: 'Rohan Verma', guardian: 'Sunita Verma', nurse: 'Nurse AM', reason: 'Hyperlipidemia', 
+      medications: ['Statins'], dosage: ['10mg'], frequency: ['Once daily'], 
+      dripLevel: 70, payments: 220, precautions: 'Diet control' },
+    { id: 40, name: 'Neeraj Gupta', guardian: 'Kiran Gupta', nurse: 'Nurse AN', reason: 'Acid Reflux', 
+      medications: ['Proton pump inhibitor'], dosage: ['20mg'], frequency: ['Once daily'], 
+      dripLevel: 50, payments: 200, precautions: 'Avoid spicy food' },
+    { id: 41, name: 'Nisha Khan', guardian: 'Zahid Khan', nurse: 'Nurse AO', reason: 'Chronic Fatigue', 
+      medications: ['Energy boosters'], dosage: ['As prescribed'], frequency: ['Once daily'], 
+      dripLevel: 60, payments: 150, precautions: 'Adequate rest' },
+    { id: 42, name: 'Tarun Bansal', guardian: 'Jaya Bansal', nurse: 'Nurse AP', reason: 'Lung Infection', 
+      medications: ['Antibiotic'], dosage: ['500mg'], frequency: ['Every 6 hours'], 
+      dripLevel: 40, payments: 250, precautions: 'Avoid cold air' },
+    { id: 43, name: 'Reena Choudhary', guardian: 'Vikram Choudhary', nurse: 'Nurse AQ', reason: 'Chronic Cough', 
+      medications: ['Cough syrup'], dosage: ['10ml'], frequency: ['Every 4 hours'], 
+      dripLevel: 70, payments: 210, precautions: 'Avoid cold drinks' },
+    { id: 44, name: 'Shweta Thakur', guardian: 'Raj Thakur', nurse: 'Nurse AR', reason: 'Ovarian Cysts', 
+      medications: ['Pain relief'], dosage: ['500mg'], frequency: ['As needed'], 
+      dripLevel: 50, payments: 220, precautions: 'Follow-up check-up' },
+    { id: 45, name: 'Nitin Desai', guardian: 'Kajal Desai', nurse: 'Nurse AS', reason: 'Kidney Infection', 
+      medications: ['Antibiotic'], dosage: ['500mg'], frequency: ['Every 8 hours'], 
+      dripLevel: 40, payments: 300, precautions: 'Stay hydrated' },
+    { id: 46, name: 'Aarti Iyer', guardian: 'Surya Iyer', nurse: 'Nurse AT', reason: 'Gingivitis', 
+      medications: ['Antibiotic'], dosage: ['500mg'], frequency: ['Twice daily'], 
+      dripLevel: 50, payments: 180, precautions: 'Maintain oral hygiene' },
+    { id: 47, name: 'Sumit Sharma', guardian: 'Geeta Sharma', nurse: 'Nurse AU', reason: 'Panic Attack', 
+      medications: ['Anti-anxiety'], dosage: ['1mg'], frequency: ['As needed'], 
+      dripLevel: 30, payments: 200, precautions: 'Relaxation techniques' },
+    { id: 48, name: 'Karan Yadav', guardian: 'Rita Yadav', nurse: 'Nurse AV', reason: 'Sinus Infection', 
+      medications: ['Antibiotic'], dosage: ['500mg'], frequency: ['Every 8 hours'], 
+      dripLevel: 70, payments: 210, precautions: 'Avoid allergens' },
+    { id: 49, name: 'Maya Rao', guardian: 'Ajay Rao', nurse: 'Nurse AW', reason: 'Urinary Tract Infection', 
+      medications: ['Antibiotic'], dosage: ['500mg'], frequency: ['Every 6 hours'], 
+      dripLevel: 60, payments: 240, precautions: 'Stay hydrated' },
+    { id: 50, name: 'Raghav Singh', guardian: 'Seema Singh', nurse: 'Nurse AX', reason: 'Vertigo', 
+      medications: ['Antihistamine'], dosage: ['10mg'], frequency: ['As needed'], 
+      dripLevel: 50, payments: 250, precautions: 'Avoid sudden movements' }
 ];
-/// Sample patients array, you can add more patients here.
-function addPatient(event) {
-    event.preventDefault();
-    const name = document.getElementById('patient-name').value;
-    const guardian = document.getElementById('guardian-name').value;
-    const nurse = document.getElementById('nurse-name').value;
-    const reason = document.getElementById('reason').value;
 
-    const newPatient = {
-        id: patients.length + 1,
-        name,
-        guardian,
-        nurse,
-        reason,
-        medications: [],
-        dripLevel: 100,
-        payments: 0,
-        precautions: '',
-        receipt: '',
-        medicationHistory: [],
-    };
-
-    patients.push(newPatient);
-    alert('Patient added successfully!');
-    document.getElementById('add-patient-form').reset(); // Reset the form
-}
-
-// Function to search patients based on the input
-function searchPatients() {
-    const input = document.getElementById('search-input').value.toLowerCase();
+function displayPatients() {
     const patientList = document.getElementById('patient-list');
     patientList.innerHTML = ''; // Clear previous results
 
-    const filteredPatients = patients.filter(patient => patient.name.toLowerCase().includes(input));
+    patients.forEach((patient, index) => {
+        const patientCard = document.createElement('div');
+        patientCard.classList.add('patient-card');
 
-    filteredPatients.forEach(patient => {
-        const card = document.createElement('div');
-        card.className = 'patient-card';
-        card.innerHTML = `
+        patientCard.innerHTML = `
             <h3>${patient.name}</h3>
+            <p>Age: ${patient.age}</p>
+            <p>Status: ${patient.status}</p>
+            <p>Medication: ${patient.medication}</p>
             <p>Guardian: ${patient.guardian}</p>
             <p>Nurse: ${patient.nurse}</p>
-            <p>Reason: ${patient.reason}</p>
-            <button onclick="viewPatient(${patient.id})">View Profile</button>
+            <p>Payment Status: ${patient.paymentStatus}</p>
+            <button onclick="payPatient(${index})">Pay</button>
+            <button onclick="viewMedicationHistory(${index})">View Medication History</button>
         `;
-        patientList.appendChild(card);
+
+        patientList.appendChild(patientCard);
     });
 }
 
-// Function to view patient profile
-function viewPatient(id) {
-    const patient = patients.find(p => p.id === id);
-    if (patient) {
-        // Store patient data in localStorage for access on the patient.html page
-        localStorage.setItem('currentPatient', JSON.stringify(patient));
-        // Redirect to patient.html
-        window.location.href = 'patient.html';
-    }
+function payPatient(index) {
+    const patient = patients[index];
+    const patientName = patient.name;
+
+    // Redirect to Payment page with the patient's name
+    window.location.href = `Payment.html?patient=${encodeURIComponent(patientName)}`;
 }
 
-// Function to load patient details on the patient.html page
-function loadPatientDetails() {
-    const patientData = localStorage.getItem('currentPatient');
-    if (patientData) {
-        const patient = JSON.parse(patientData);
-        document.getElementById('patient-name-header').innerText = `${patient.name}'s Profile`;
-        
-        const patientDetails = `
-            <p><strong>Guardian:</strong> ${patient.guardian}</p>
-            <p><strong>Nurse:</strong> ${patient.nurse}</p>
-            <p><strong>Reason:</strong> ${patient.reason}</p>
-            <p><strong>Drip Level:</strong> ${patient.dripLevel}%</p>
-            <p><strong>Payments:</strong> ₹${patient.payments}</p>
-            <p><strong>Precautions:</strong> ${patient.precautions}</p>
-        `;
-        document.getElementById('patient-details').innerHTML = patientDetails;
+function viewMedicationHistory(index) {
+    const patient = patients[index];
+    const medicationHistory = patient.medicationHistory || [];
 
-        // Initialize graphs
-        drawGraphs(patient);
-    } else {
-        document.getElementById('patient-details').innerHTML = '<p>No patient data found.</p>';
-    }
+    let historyMessage = `Medication History for ${patient.name}:\n`;
+    medicationHistory.forEach((med, idx) => {
+        historyMessage += `${idx + 1}. ${med}\n`;
+    });
+
+    alert(historyMessage);
 }
 
-// Function to draw graphs for medications and drip levels
-function drawGraphs(patient) {
-    const medicationLevels = patient.medications.map(med => med.level);
-    const labels = patient.medications.map(med => med.name);
+function addPatient(name, age, status, medication, guardian, nurse) {
+    const newPatient = {
+        name,
+        age,
+        status,
+        medication,
+        guardian,
+        nurse,
+        paymentStatus: "Pending", // Default payment status
+        medicationHistory: [] // Initial empty medication history
+    };
     
-    // Medication Chart
-    const medicationCtx = document.getElementById('medicationChart').getContext('2d');
-    new Chart(medicationCtx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Medication Levels',
-                data: medicationLevels,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+    patients.push(newPatient);
+    displayPatients();
+}
 
-    // Drip Chart
-    const dripCtx = document.getElementById('dripChart').getContext('2d');
-    new Chart(dripCtx, {
-        type: 'line',
-        data: {
-            labels: ['Start', 'After 1 Hour', 'After 2 Hours', 'End'], // Sample labels
-            datasets: [{
-                label: 'Drip Level',
-                data: [100, 80, 50, 0], // Sample data, adjust as necessary
-                fill: false,
-                borderColor: 'rgba(255, 99, 132, 1)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100 // Assuming max drip level is 100%
-                }
-            }
-        }
+// Example: Add new patient dynamically (You can replace this with a form submission)
+addPatient("John Doe", 30, "Under Treatment", "Medication A", "Jane Doe", "Nurse Smith");
+
+document.getElementById('search-input').addEventListener('input', function() {
+    const searchValue = this.value.toLowerCase();
+    const filteredPatients = patients.filter(patient => 
+        patient.name.toLowerCase().includes(searchValue)
+    );
+    displayFilteredPatients(filteredPatients);
+});
+
+function displayFilteredPatients(filteredPatients) {
+    const patientList = document.getElementById('patient-list');
+    patientList.innerHTML = ''; // Clear previous results
+
+    filteredPatients.forEach((patient, index) => {
+        const patientCard = document.createElement('div');
+        patientCard.classList.add('patient-card');
+
+        patientCard.innerHTML = `
+            <h3>${patient.name}</h3>
+            <p>Age: ${patient.age}</p>
+            <p>Status: ${patient.status}</p>
+            <p>Medication: ${patient.medication}</p>
+            <p>Guardian: ${patient.guardian}</p>
+            <p>Nurse: ${patient.nurse}</p>
+            <p>Payment Status: ${patient.paymentStatus}</p>
+            <button onclick="payPatient(${index})">Pay</button>
+            <button onclick="viewMedicationHistory(${index})">View Medication History</button>
+        `;
+
+        patientList.appendChild(patientCard);
     });
 }
 
-// Call searchPatients on input change
-document.getElementById('search-input')?.addEventListener('input', searchPatients);
-document.getElementById('add-patient-form')?.addEventListener('submit', addPatient);
-
-// Call loadPatientDetails if on patient.html
-if (window.location.pathname.includes('patient.html')) {
-    loadPatientDetails();
-}
+// Call displayPatients initially to show the list
+displayPatients();
