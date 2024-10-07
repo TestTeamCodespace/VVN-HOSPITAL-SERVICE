@@ -50,14 +50,14 @@ const patients = [
     { id: 49, name: 'Krishna Nair', guardian: 'Kamala Nair', nurse: 'Nurse WW', reason: 'Anxiety', medications: ['Anti-Anxiety Medication'], dripLevel: 85, payments: 200, precautions: 'Counseling' },
     { id: 50, name: 'Gaurav Jain', guardian: 'Aarti Jain', nurse: 'Nurse XX', reason: 'Surgery', medications: ['Painkillers'], dripLevel: 95, payments: 600, precautions: 'Follow up care' }
 ];
-// Function to add a patient
+/// Sample patients array, you can add more patients here.
 function addPatient(event) {
     event.preventDefault();
     const name = document.getElementById('patient-name').value;
     const guardian = document.getElementById('guardian-name').value;
     const nurse = document.getElementById('nurse-name').value;
     const reason = document.getElementById('reason').value;
-    
+
     const newPatient = {
         id: patients.length + 1,
         name,
@@ -71,7 +71,7 @@ function addPatient(event) {
         receipt: '',
         medicationHistory: [],
     };
-    
+
     patients.push(newPatient);
     alert('Patient added successfully!');
     document.getElementById('add-patient-form').reset(); // Reset the form
@@ -103,6 +103,18 @@ function searchPatients() {
 function viewPatient(id) {
     const patient = patients.find(p => p.id === id);
     if (patient) {
+        // Store patient data in localStorage for access on the patient.html page
+        localStorage.setItem('currentPatient', JSON.stringify(patient));
+        // Redirect to patient.html
+        window.location.href = 'patient.html';
+    }
+}
+
+// Function to load patient details on the patient.html page
+function loadPatientDetails() {
+    const patientData = localStorage.getItem('currentPatient');
+    if (patientData) {
+        const patient = JSON.parse(patientData);
         document.getElementById('patient-name-header').innerText = `${patient.name}'s Profile`;
         
         const patientDetails = `
@@ -114,9 +126,11 @@ function viewPatient(id) {
             <p><strong>Precautions:</strong> ${patient.precautions}</p>
         `;
         document.getElementById('patient-details').innerHTML = patientDetails;
-        
+
         // Initialize graphs
         drawGraphs(patient);
+    } else {
+        document.getElementById('patient-details').innerHTML = '<p>No patient data found.</p>';
     }
 }
 
@@ -176,3 +190,8 @@ function drawGraphs(patient) {
 // Call searchPatients on input change
 document.getElementById('search-input')?.addEventListener('input', searchPatients);
 document.getElementById('add-patient-form')?.addEventListener('submit', addPatient);
+
+// Call loadPatientDetails if on patient.html
+if (window.location.pathname.includes('patient.html')) {
+    loadPatientDetails();
+}
