@@ -151,67 +151,86 @@ const patients = [
       dripLevel: 50, payments: 250, precautions: 'Avoid sudden movements' }
 ];
 
-function renderPatientCards() {
-  const patientContainer = document.getElementById('patient-cards');
-  patientContainer.innerHTML = ''; // Clear previous cards
-
-  patients.forEach(patient => {
-      const card = document.createElement('div');
-      card.classList.add('patient-card');
-      card.innerHTML = `
-          <h3>${patient.name}</h3>
-          <p>Guardian: ${patient.guardian}</p>
-          <p>Nurse: ${patient.nurse}</p>
-          <p>Reason: ${patient.reason}</p>
-          <button onclick="showPatientDetails(${patient.id})">View Details</button>
-          <button onclick="payForPatient(${patient.id})">Pay</button>
-      `;
-      patientContainer.appendChild(card);
-  });
+// Function to display patients
+function displayPatients() {
+    const patientList = document.getElementById('patient-list');
+    patientList.innerHTML = ''; // Clear previous results
+    patients.forEach(patient => {
+        const patientCard = document.createElement('div');
+        patientCard.classList.add('patient-card');
+        patientCard.innerHTML = `
+            <h3>${patient.name}</h3>
+            <p>Guardian: ${patient.guardian}</p>
+            <p>Nurse: ${patient.nurse}</p>
+            <p>Reason: ${patient.reason}</p>
+            <p>Drip Level: ${patient.dripLevel}%</p>
+            <p>Payments: ₹${patient.payments}</p>
+            <button onclick="viewPatientDetails(${patient.id})">View Details</button>
+        `;
+        patientList.appendChild(patientCard);
+    });
 }
 
-function showPatientDetails(id) {
-  const patient = patients.find(p => p.id === id);
-  if (patient) {
-      const detailView = document.getElementById('patient-detail');
-      detailView.innerHTML = `
-          <h2>${patient.name}</h2>
-          <p><strong>Guardian:</strong> ${patient.guardian}</p>
-          <p><strong>Nurse:</strong> ${patient.nurse}</p>
-          <p><strong>Reason:</strong> ${patient.reason}</p>
-          <p><strong>Medications:</strong> ${patient.medications.join(', ')}</p>
-          <p><strong>Dosage:</strong> ${patient.dosage.join(', ')}</p>
-          <p><strong>Frequency:</strong> ${patient.frequency.join(', ')}</p>
-          <p><strong>Drip Level:</strong> ${patient.dripLevel}%</p>
-          <p><strong>Payments:</strong> ₹${patient.payments}</p>
-          <p><strong>Precautions:</strong> ${patient.precautions}</p>
-          <button onclick="hidePatientDetails()">Close</button>
-      `;
-      detailView.style.display = 'block';
-  }
+// Function to view patient details
+function viewPatientDetails(id) {
+    const patient = patients.find(p => p.id === id);
+    if (patient) {
+        document.getElementById('modal-patient-name').innerText = patient.name;
+        document.getElementById('modal-guardian').innerText = patient.guardian;
+        document.getElementById('modal-nurse').innerText = patient.nurse;
+        document.getElementById('modal-reason').innerText = patient.reason;
+        document.getElementById('modal-medications').innerText = patient.medications.join(', ');
+        document.getElementById('modal-dosage').innerText = patient.dosage.join(', ');
+        document.getElementById('modal-frequency').innerText = patient.frequency.join(', ');
+        document.getElementById('modal-dripLevel').innerText = patient.dripLevel;
+        document.getElementById('modal-payments').innerText = patient.payments;
+        document.getElementById('modal-precautions').innerText = patient.precautions;
+
+        // Show the modal
+        document.getElementById('patient-details-modal').style.display = 'block';
+    }
 }
 
-function hidePatientDetails() {
-  const detailView = document.getElementById('patient-detail');
-  detailView.style.display = 'none';
+// Function to close the modal
+function closeModal() {
+    document.getElementById('patient-details-modal').style.display = 'none';
 }
 
-function payForPatient(id) {
-  const patient = patients.find(p => p.id === id);
-  if (patient) {
-      const paymentAmount = prompt(`Enter payment amount for ${patient.name}:`);
-      if (paymentAmount) {
-          const paymentNum = parseFloat(paymentAmount);
-          if (!isNaN(paymentNum) && paymentNum > 0) {
-              patient.payments += paymentNum;
-              alert(`Payment of ₹${paymentNum} successful for ${patient.name}.`);
-              renderPatientCards(); // Refresh cards to show updated payment
-          } else {
-              alert('Invalid payment amount.');
-          }
-      }
-  }
+// Function to go to payment
+function goToPayment() {
+    // You can implement payment logic or redirect to the Payment page with patientId
+    window.location.href = 'Payment.html'; // Add patientId as a query parameter if needed
 }
 
-// Call render function to display patient cards on page load
-renderPatientCards();
+// Search functionality
+document.getElementById('search-input').addEventListener('keyup', function() {
+    const searchTerm = this.value.toLowerCase();
+    const filteredPatients = patients.filter(patient => 
+        patient.name.toLowerCase().includes(searchTerm) || 
+        patient.guardian.toLowerCase().includes(searchTerm)
+    );
+    displayFilteredPatients(filteredPatients);
+});
+
+// Function to display filtered patients
+function displayFilteredPatients(filteredPatients) {
+    const patientList = document.getElementById('patient-list');
+    patientList.innerHTML = ''; // Clear previous results
+    filteredPatients.forEach(patient => {
+        const patientCard = document.createElement('div');
+        patientCard.classList.add('patient-card');
+        patientCard.innerHTML = `
+            <h3>${patient.name}</h3>
+            <p>Guardian: ${patient.guardian}</p>
+            <p>Nurse: ${patient.nurse}</p>
+            <p>Reason: ${patient.reason}</p>
+            <p>Drip Level: ${patient.dripLevel}%</p>
+            <p>Payments: ₹${patient.payments}</p>
+            <button onclick="viewPatientDetails(${patient.id})">View Details</button>
+        `;
+        patientList.appendChild(patientCard);
+    });
+}
+
+// Initial display of patients
+displayPatients();
