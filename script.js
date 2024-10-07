@@ -151,6 +151,7 @@ const patients = [
       dripLevel: 50, payments: 250, precautions: 'Avoid sudden movements' }
 ];
 
+// Function to display patients
 function displayPatients() {
     const patientList = document.getElementById('patient-list');
     patientList.innerHTML = ''; // Clear previous results
@@ -174,25 +175,29 @@ function displayPatients() {
 function viewPatientDetails(id) {
     const patient = patients.find(p => p.id === id);
     if (patient) {
-        const paymentDetails = document.getElementById('payment-details');
-        paymentDetails.innerHTML = `
-            <h2>Details for ${patient.name}</h2>
-            <p>Guardian: ${patient.guardian}</p>
-            <p>Nurse: ${patient.nurse}</p>
-            <p>Reason: ${patient.reason}</p>
-            <p>Medications: ${patient.medications.join(', ')}</p>
-            <p>Dosage: ${patient.dosage.join(', ')}</p>
-            <p>Frequency: ${patient.frequency.join(', ')}</p>
-            <p>Drip Level: ${patient.dripLevel}%</p>
-            <p>Payments: ₹${patient.payments}</p>
-            <p>Precautions: ${patient.precautions}</p>
-            <button onclick="goToPayment(${patient.id})">Proceed to Payment</button>
-        `;
+        document.getElementById('modal-patient-name').innerText = patient.name;
+        document.getElementById('modal-guardian').innerText = patient.guardian;
+        document.getElementById('modal-nurse').innerText = patient.nurse;
+        document.getElementById('modal-reason').innerText = patient.reason;
+        document.getElementById('modal-medications').innerText = patient.medications.join(', ');
+        document.getElementById('modal-dosage').innerText = patient.dosage.join(', ');
+        document.getElementById('modal-frequency').innerText = patient.frequency.join(', ');
+        document.getElementById('modal-dripLevel').innerText = patient.dripLevel;
+        document.getElementById('modal-payments').innerText = patient.payments;
+        document.getElementById('modal-precautions').innerText = patient.precautions;
+
+        // Show the modal
+        document.getElementById('patient-details-modal').style.display = 'block';
     }
 }
 
+// Function to close the modal
+function closeModal() {
+    document.getElementById('patient-details-modal').style.display = 'none';
+}
+
 // Function to go to payment
-function goToPayment(patientId) {
+function goToPayment() {
     // You can implement payment logic or redirect to the Payment page with patientId
     window.location.href = 'Payment.html'; // Add patientId as a query parameter if needed
 }

@@ -17,6 +17,23 @@
         <button class="return-home" onclick="window.location.href='Payment.html'">Go to Payment Page</button>
     </div>
 
+    <div id="patient-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-patient-name"></h2>
+            <p>Guardian: <span id="modal-guardian"></span></p>
+            <p>Nurse: <span id="modal-nurse"></span></p>
+            <p>Reason: <span id="modal-reason"></span></p>
+            <p>Medications: <span id="modal-medications"></span></p>
+            <p>Dosage: <span id="modal-dosage"></span></p>
+            <p>Frequency: <span id="modal-frequency"></span></p>
+            <p>Drip Level: <span id="modal-dripLevel"></span>%</p>
+            <p>Payments: ₹<span id="modal-payments"></span></p>
+            <p>Precautions: <span id="modal-precautions"></span></p>
+            <button onclick="goToPayment()">Proceed to Payment</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
