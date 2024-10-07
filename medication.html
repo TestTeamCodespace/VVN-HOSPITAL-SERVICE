@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>VVN Hospital Service - Medication Management</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Medication Management</h1>
+        <form id="medication-form">
+            <input type="text" id="patient-name" placeholder="Enter patient's name" required>
+            <input type="text" id="medication-name" placeholder="Medication Name" required>
+            <input type="number" id="medication-cost" placeholder="Cost" required>
+            <button type="submit">Add Medication</button>
+        </form>
+        <div id="medication-list"></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="search.html">Search Patient</a></li>
+            </ul>
+        </nav>
+        <footer>
+            <p>&copy; 2024 VVN Hospital Service. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
