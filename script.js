@@ -1,64 +1,130 @@
-// Patient Data
-const patients = [
-    { id: 1, name: 'Rahul Sharma', guardian: 'Amit Sharma', nurse: 'Nurse A', reason: 'Surgery', medications: [{ name: 'Paracetamol', cost: 50 }], dripLevel: 100, payments: 500 },
-    { id: 2, name: 'Priya Gupta', guardian: 'Sita Gupta', nurse: 'Nurse B', reason: 'Fever', medications: [{ name: 'Paracetamol', cost: 50 }], dripLevel: 95, payments: 300 },
-    { id: 3, name: 'Suresh Verma', guardian: 'Rajesh Verma', nurse: 'Nurse C', reason: 'Checkup', medications: [], dripLevel: 100, payments: 1000 },
-    { id: 4, name: 'Meera Iyer', guardian: 'Anil Iyer', nurse: 'Nurse D', reason: 'Surgery', medications: [{ name: 'Tramadol', cost: 80 }], dripLevel: 85, payments: 600 },
-    { id: 5, name: 'Ravi Kumar', guardian: 'Pooja Kumar', nurse: 'Nurse E', reason: 'Allergy', medications: [{ name: 'Cetirizine', cost: 20 }], dripLevel: 100, payments: 450 },
-    { id: 6, name: 'Anjali Rao', guardian: 'Krishna Rao', nurse: 'Nurse F', reason: 'Diabetes check', medications: [{ name: 'Metformin', cost: 100 }], dripLevel: 100, payments: 700 },
-    { id: 7, name: 'Kiran Malhotra', guardian: 'Deepak Malhotra', nurse: 'Nurse G', reason: 'Routine Checkup', medications: [], dripLevel: 95, payments: 200 },
-    { id: 8, name: 'Vinay Verma', guardian: 'Sonu Verma', nurse: 'Nurse H', reason: 'Heart Issues', medications: [{ name: 'Aspirin', cost: 60 }], dripLevel: 90, payments: 800 },
-    { id: 9, name: 'Deepa Patil', guardian: 'Shiv Patil', nurse: 'Nurse I', reason: 'Pregnancy Check', medications: [], dripLevel: 100, payments: 300 },
-    { id: 10, name: 'Rajendra Singh', guardian: 'Ramesh Singh', nurse: 'Nurse J', reason: 'Back Pain', medications: [{ name: 'Ibuprofen', cost: 70 }], dripLevel: 88, payments: 500 },
+let patients = [
+    {
+        id: 1,
+        name: 'Rahul Sharma',
+        guardian: 'Amit Sharma',
+        nurse: 'Nurse A',
+        reason: 'Surgery',
+        medications: [],
+        dripLevel: 100,
+        payments: 500,
+        precautions: 'Rest and hydration',
+        receipt: 'REC-001',
+        medicationHistory: []
+    },
+    {
+        id: 2,
+        name: 'Priya Gupta',
+        guardian: 'Sita Gupta',
+        nurse: 'Nurse B',
+        reason: 'Fever',
+        medications: [],
+        dripLevel: 95,
+        payments: 300,
+        precautions: 'Stay hydrated',
+        receipt: 'REC-002',
+        medicationHistory: []
+    },
+    // Additional patient data...
+    {
+        id: 3,
+        name: 'Suresh Verma',
+        guardian: 'Rajesh Verma',
+        nurse: 'Nurse C',
+        reason: 'Checkup',
+        medications: [],
+        dripLevel: 100,
+        payments: 1000,
+        precautions: 'Regular exercise',
+        receipt: 'REC-003',
+        medicationHistory: []
+    }
+    // More patients can be added here...
 ];
 
-// Search Functionality
-document.getElementById('search-button')?.addEventListener('click', () => {
-    const input = document.getElementById('search-input').value.toLowerCase();
-    const patientCards = document.getElementById('patient-cards');
+document.getElementById('searchForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+    const filteredPatients = patients.filter(patient => 
+        patient.name.toLowerCase().includes(searchQuery)
+    );
+    displayPatients(filteredPatients);
+});
+
+function displayPatients(filteredPatients) {
+    const patientCards = document.getElementById('patientCards');
     patientCards.innerHTML = '';
-    patients.filter(patient => patient.name.toLowerCase().includes(input)).forEach(patient => {
+    filteredPatients.forEach(patient => {
         const card = document.createElement('div');
-        card.classList.add('card');
+        card.classList.add('patient-card');
         card.innerHTML = `
             <h3>${patient.name}</h3>
             <p>Guardian: ${patient.guardian}</p>
             <p>Nurse: ${patient.nurse}</p>
             <p>Reason: ${patient.reason}</p>
             <p>Drip Level: ${patient.dripLevel}%</p>
-            <p>Total Payments: ₹${patient.payments}</p>
+            <button onclick="viewPatientDetails(${patient.id})">View Details</button>
         `;
         patientCards.appendChild(card);
     });
-});
-
-// Medication Management
-document.getElementById('medication-form')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('patient-name').value;
-    const medication = document.getElementById('medication-name').value;
-    const cost = document.getElementById('medication-cost').value;
-    
-    const patient = patients.find(p => p.name.toLowerCase() === name.toLowerCase());
-    if (patient) {
-        patient.medications.push({ name: medication, cost: parseInt(cost) });
-        displayMedications(patient);
-    } else {
-        alert('Patient not found!');
-    }
-    document.getElementById('medication-form').reset();
-});
-
-// Display Medications
-function displayMedications(patient) {
-    const medicationList = document.getElementById('medication-list');
-    const item = document.createElement('div');
-    item.classList.add('medication-item');
-    item.innerHTML = `
-        <h4>${patient.name}'s Medications:</h4>
-        <ul>
-            ${patient.medications.map(med => `<li>${med.name} - ₹${med.cost}</li>`).join('')}
-        </ul>
-    `;
-    medicationList.appendChild(item);
 }
+
+function viewPatientDetails(id) {
+    const patient = patients.find(p => p.id === id);
+    if (patient) {
+        alert(`Name: ${patient.name}\nGuardian: ${patient.guardian}\nNurse: ${patient.nurse}\nReason: ${patient.reason}\nDrip Level: ${patient.dripLevel}%\nPayments: ${patient.payments}\nPrecautions: ${patient.precautions}`);
+    }
+}
+
+// Function to handle patient addition
+document.getElementById('addPatientForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const newPatient = {
+        id: patients.length + 1,
+        name: document.getElementById('name').value,
+        guardian: document.getElementById('guardian').value,
+        nurse: document.getElementById('nurse').value,
+        reason: document.getElementById('reason').value,
+        medications: [],
+        dripLevel: 100,
+        payments: 0,
+        precautions: '',
+        receipt: `REC-00${patients.length + 1}`,
+        medicationHistory: []
+    };
+    
+    patients.push(newPatient); // Add new patient to the array
+    alert(`${newPatient.name} added successfully!`);
+    window.location.href = 'index.html'; // Redirect back to the main page
+});
+
+// Handle login
+const correctUsername = 'user';
+const correctPassword = 'password';
+
+document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (username === correctUsername && password === correctPassword) {
+        window.location.href = 'index.html'; // Redirect to main page
+    } else {
+        document.getElementById('loginError').innerText = 'Invalid credentials';
+    }
+});
+
+// Monitor drip levels
+function monitorDripLevels() {
+    patients.forEach(patient => {
+        if (patient.dripLevel <= 15) {
+            patient.dripLevel = 100; // Reset drip level
+            alert(`Drip level for ${patient.name} reset to 100%`);
+            // Update the display if necessary
+        }
+    });
+}
+
+// Call this function periodically (e.g., every hour)
+setInterval(monitorDripLevels, 3600000);
