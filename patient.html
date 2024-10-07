@@ -3,20 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details</title>
     <link rel="stylesheet" href="styles.css">
-    <title>Patient Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1 id="patient-name-header">Patient Profile</h1>
+            <h1 id="patient-name"></h1>
+            <button class="return-home" onclick="window.location.href='index.html'">Back to Home</button>
         </header>
-        <div id="patient-details"></div>
-        <canvas id="medicationChart"></canvas>
-        <canvas id="dripChart"></canvas>
-        <button class="return-home" onclick="location.href='index.html'">Return to Homepage</button>
+
+        <h2>Patient Information</h2>
+        <p><strong>Age:</strong> <span id="patient-age"></span></p>
+        <p><strong>Status:</strong> <span id="patient-status"></span></p>
+        <p><strong>Guardian:</strong> <span id="patient-guardian"></span></p>
+        <p><strong>Nurse:</strong> <span id="patient-nurse"></span></p>
+        <p><strong>Payment Status:</strong> <span id="payment-status"></span></p>
+
+        <h2>Medication History</h2>
+        <ul id="medication-history-list"></ul>
+
+        <h2>Medication Costs</h2>
+        <canvas id="costChart" width="400" height="200"></canvas>
+
+        <h2>Medication Type Distribution</h2>
+        <canvas id="medicationTypeChart" width="400" height="200"></canvas>
     </div>
+
     <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const patientName = params.get('patient');
+
+        // Fetch patient data (Replace with actual patient fetching logic)
+        const patientData = patients.find(p => p.name === patientName);
+        
+        if (patientData) {
+            document.getElementById('patient-name').innerText = patientData.name;
+            document.getElementById('patient-age').innerText = patientData.age;
+            document.getElementById('patient-status').innerText = patientData.status;
+            document.getElementById('patient-guardian').innerText = patientData.guardian;
+            document.getElementById('patient-nurse').innerText = patientData.nurse;
+            document.getElementById('payment-status').innerText = patientData.paymentStatus;
+
+            const medicationHistoryList = document.getElementById('medication-history-list');
+            patientData.medicationHistory.forEach(med => {
+                const li = document.createElement('li');
+                li.innerText = med;
+                medicationHistoryList.appendChild(li);
+            });
+
+            renderCostChart(patientData);
+            renderMedicationTypeChart(patientData);
+        } else {
+            alert('Patient not found!');
+        }
+
+        function renderCostChart(patient) {
+            const ctx = document.getElementById('costChart').getContext('2d');
+            const data = {
+                labels: ['Total Cost', 'Pending Amount'],
+                datasets: [{
+                    label: 'Medication Costs',
+                    data: [patient.totalCost || 0, patient.pendingAmount || 0],
+                    backgroundColor: ['#007bff', '#6c757d'],
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }]
+            };
+            const costChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderMedicationTypeChart(patient) {
+            const ctx = document.getElementById('medicationTypeChart').getContext('2d');
+            const medicationTypes = {};
+            patient.medicationHistory.forEach(med => {
+                const type = med.type; // Assuming each medication has a type property
+                medicationTypes[type] = (medicationTypes[type] || 0) + 1;
+            });
+
+            const data = {
+                labels: Object.keys(medicationTypes),
+                datasets: [{
+                    label: 'Medication Types',
+                    data: Object.values(medicationTypes),
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#4BC0C0',
+                        '#9966FF',
+                        '#FF9F40'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+
+            const medicationTypeChart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true
+                }
+            });
+        }
+    </script>
 </body>
 </html>
