@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - VVN Hospital Service</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Login</h1>
-    </header>
-
-    <main>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-            <p id="loginError" style="color: red;"></p>
-        </form>
-    </main>
-
+    <div class="container">
+        <header>
+            <h1>Login to VVN Hospital Service</h1>
+        </header>
+        <main>
+            <form id="login-form" onsubmit="return handleLogin(event)">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </main>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

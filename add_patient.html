@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Patient</title>
+    <title>Add Patient - VVN Hospital Service</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Add Patient</h1>
-    </header>
-
-    <main>
-        <form id="addPatientForm">
-            <input type="text" id="name" placeholder="Patient Name" required>
-            <input type="text" id="guardian" placeholder="Guardian Name" required>
-            <input type="text" id="nurse" placeholder="Nurse Name" required>
-            <input type="text" id="reason" placeholder="Reason for Admission" required>
-            <button type="submit">Add Patient</button>
-        </form>
-    </main>
-
+    <div class="container">
+        <header>
+            <h1>Add Patient</h1>
+        </header>
+        <main>
+            <form id="add-patient-form" onsubmit="return addPatient(event)">
+                <input type="text" id="patient-name" placeholder="Patient Name" required>
+                <input type="text" id="guardian-name" placeholder="Guardian Name" required>
+                <input type="text" id="nurse-name" placeholder="Nurse Name" required>
+                <input type="text" id="reason" placeholder="Reason for Visit" required>
+                <input type="text" id="medications" placeholder="Medications (comma separated)" required>
+                <input type="number" id="drip-level" placeholder="Drip Level (%)" required>
+                <input type="number" id="payments" placeholder="Payments" required>
+                <input type="text" id="precautions" placeholder="Precautions" required>
+                <button type="submit">Add Patient</button>
+            </form>
+        </main>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
